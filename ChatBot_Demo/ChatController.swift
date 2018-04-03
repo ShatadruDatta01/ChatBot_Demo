@@ -47,15 +47,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         self.tblChatBot.estimatedRowHeight = 70.0
         self.tblChatBot.rowHeight = UITableViewAutomaticDimension
         self.messageField.placeholder = "Type message"
-//        let audioSession = AVAudioSession.sharedInstance()  //2
-//        do {
-//            try audioSession.setCategory(AVAudioSessionCategoryRecord)
-//            try audioSession.setMode(AVAudioSessionModeMeasurement)
-//            //try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-//            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-//        } catch {
-//            print("audioSession properties weren't set because of an error.")
-//        }
+
         
         speechSynthesizer.delegate = self
         speechRecognizer.delegate = self
@@ -83,12 +75,62 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         // Do any additional setup after loading the view.
     }
     
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleRouteChange),
+                                               name: .AVAudioSessionRouteChange,
+                                               object: AVAudioSession.sharedInstance())
+    }
+    
+    
+    @objc func handleRouteChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo,
+            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+            let reason = AVAudioSessionRouteChangeReason(rawValue:reasonValue) else {
+                return
+        }
+        switch reason {
+        case .newDeviceAvailable:
+            let session = AVAudioSession.sharedInstance()
+            for output in session.currentRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
+                print("Headphones in")
+//                headphonesConnected = true
+                
+                let audioSession = AVAudioSession.sharedInstance()  //2
+                do {
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
+                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                } catch {
+                    print("audioSession properties weren't set because of an error.")
+                }
+            }
+        case .oldDeviceUnavailable:
+            if let previousRoute =
+                userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
+                for output in previousRoute.outputs where output.portType == AVAudioSessionPortHeadphones {
+//                    headphonesConnected = false
+                    let audioSession = AVAudioSession.sharedInstance()  //2
+                    do {
+                        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
+                        try audioSession.setMode(AVAudioSessionModeMeasurement)
+                        try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                    } catch {
+                        print("audioSession properties weren't set because of an error.")
+                    }
+                }
+            }
+        default: ()
+        }
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setupNotifications()
     }
     
     
@@ -373,7 +415,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         
         let audioSession = AVAudioSession.sharedInstance()  //2
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
             try audioSession.setMode(AVAudioSessionModeMeasurement)
             try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
         } catch {
