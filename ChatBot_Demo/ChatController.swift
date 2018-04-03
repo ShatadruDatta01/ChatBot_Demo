@@ -96,12 +96,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         if sender.isSelected {
             self.messageField.placeholder = "Type message"
             sender.isSelected = false
-            if audioEngine.isRunning {
-                audioEngine.stop()
-                recognitionRequest?.endAudio()
-            } else {
-                self.recording()
-            }
+            self.recording()
             btnPlay.setImage(UIImage(named: "mic"), for: .normal)
             
         } else {
@@ -243,14 +238,14 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
     
     func speechAndText(text: String) {
         
-        let audioSession = AVAudioSession.sharedInstance()  //2
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
-            try audioSession.setMode(AVAudioSessionModeMeasurement)
-            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-        } catch {
-            print("audioSession properties weren't set because of an error.")
-        }
+//        let audioSession = AVAudioSession.sharedInstance()  //2
+//        do {
+//            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
+//            try audioSession.setMode(AVAudioSessionModeMeasurement)
+//            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+//        } catch {
+//            print("audioSession properties weren't set because of an error.")
+//        }
 
         
         let speechUtterance = AVSpeechUtterance(string: text)
@@ -277,7 +272,6 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
 //        }
         
         if self.isAudioRunning {
-            
         } else {
             self.startRecordingSecondMethod()
         }
@@ -377,14 +371,14 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
     
     private func startTimeCounterAndUpdateUI() {
         
-//        let audioSession = AVAudioSession.sharedInstance()  //2
-//        do {
-//            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
-//            try audioSession.setMode(AVAudioSessionModeMeasurement)
-//            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-//        } catch {
-//            print("audioSession properties weren't set because of an error.")
-//        }
+        let audioSession = AVAudioSession.sharedInstance()  //2
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
+            try audioSession.setMode(AVAudioSessionModeMeasurement)
+            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
 
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] (timer) in
