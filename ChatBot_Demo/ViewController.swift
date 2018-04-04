@@ -132,7 +132,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         })
         
         let recordingFormat = inputNode.outputFormat(forBus: 0)  //11
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when) in
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, when: AVAudioTime) in
             self.recognitionRequest?.append(buffer)
         }
         
