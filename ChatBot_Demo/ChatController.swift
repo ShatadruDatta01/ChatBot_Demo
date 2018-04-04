@@ -98,9 +98,12 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
                 
                 let audioSession = AVAudioSession.sharedInstance()  //2
                 do {
-                    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
-                    try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    //  try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.mixWithOthers)
+                    try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                    //  try audioSession.setMode(AVAudioSessionModeMeasurement)
+                    try audioSession.setMode(AVAudioSessionModeDefault)
                     try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                    try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
                 } catch {
                     print("audioSession properties weren't set because of an error.")
                 }
@@ -112,9 +115,12 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
 //                    headphonesConnected = false
                     let audioSession = AVAudioSession.sharedInstance()  //2
                     do {
-                        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
-                        try audioSession.setMode(AVAudioSessionModeMeasurement)
+                      //  try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.mixWithOthers)
+                        try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                      //  try audioSession.setMode(AVAudioSessionModeMeasurement)
+                        try audioSession.setMode(AVAudioSessionModeDefault)
                         try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+                        try audioSession.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
                     } catch {
                         print("audioSession properties weren't set because of an error.")
                     }
@@ -130,7 +136,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setupNotifications()
+        //self.setupNotifications()
     }
     
     
@@ -280,14 +286,16 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
     
     func speechAndText(text: String) {
         
-//        let audioSession = AVAudioSession.sharedInstance()  //2
-//        do {
-//            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
+        let audioSession = AVAudioSession.sharedInstance()  //2
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayback, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
 //            try audioSession.setMode(AVAudioSessionModeMeasurement)
-//            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
-//        } catch {
-//            print("audioSession properties weren't set because of an error.")
-//        }
+            try audioSession.setMode(AVAudioSessionModeDefault)
+            try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+            try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
 
         
         let speechUtterance = AVSpeechUtterance(string: text)
@@ -300,8 +308,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
             self.tblChatBot.reloadData()
             self.scrollToBottom()
         }, completion: nil)
-
-
+        
     }
     
     
@@ -415,9 +422,11 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         
         let audioSession = AVAudioSession.sharedInstance()  //2
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.allowBluetoothA2DP)
+            try audioSession.setCategory(AVAudioSessionCategoryRecord)
             try audioSession.setMode(AVAudioSessionModeMeasurement)
+            //try audioSession.setMode(AVAudioSessionModeDefault)
             try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+            //try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
         } catch {
             print("audioSession properties weren't set because of an error.")
         }
