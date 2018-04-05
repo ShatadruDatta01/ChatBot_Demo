@@ -184,7 +184,7 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="botchatbox" translatesAutoresizingMaskIntoConstraints="NO" id="ZSl-vR-ieu">
                                                             <rect key="frame" x="0.0" y="0.0" width="302" height="48"/>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRc-aX-Z45">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRc-aX-Z45">
                                                             <rect key="frame" x="8" y="0.0" width="286" height="48"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -200,7 +200,7 @@
                                                         <constraint firstItem="ZSl-vR-ieu" firstAttribute="top" secondItem="xtO-cP-cUg" secondAttribute="top" id="fB2-BB-7PE"/>
                                                         <constraint firstItem="WRc-aX-Z45" firstAttribute="top" secondItem="xtO-cP-cUg" secondAttribute="top" id="gbu-Dz-ZvF"/>
                                                         <constraint firstItem="ZSl-vR-ieu" firstAttribute="leading" secondItem="xtO-cP-cUg" secondAttribute="leading" id="hCr-po-1FY"/>
-                                                        <constraint firstAttribute="height" constant="48" id="j0Z-3K-sxv"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="j0Z-3K-sxv"/>
                                                         <constraint firstAttribute="bottom" secondItem="WRc-aX-Z45" secondAttribute="bottom" id="pks-jj-sou"/>
                                                     </constraints>
                                                 </view>
@@ -252,7 +252,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="eDl-WO-PuQ" secondAttribute="trailing" constant="8" id="1DG-aS-Nj4"/>
-                                                        <constraint firstAttribute="height" constant="48" id="22I-sj-CgJ"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="22I-sj-CgJ"/>
                                                         <constraint firstItem="Vxz-XV-hqy" firstAttribute="leading" secondItem="mYb-oX-vld" secondAttribute="leading" id="FmN-L9-hCU"/>
                                                         <constraint firstItem="eDl-WO-PuQ" firstAttribute="leading" secondItem="mYb-oX-vld" secondAttribute="leading" constant="8" id="QsC-42-fKE"/>
                                                         <constraint firstAttribute="bottom" secondItem="eDl-WO-PuQ" secondAttribute="bottom" id="avH-Kk-xAB"/>
