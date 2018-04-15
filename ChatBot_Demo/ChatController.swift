@@ -44,15 +44,14 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.speechAndText(text: "Welcome to KAUST Artificial Intelligence. My name is KIA. How may I help you?")
         self.tblChatBot.estimatedRowHeight = 70.0
         self.tblChatBot.rowHeight = UITableViewAutomaticDimension
         self.messageField.placeholder = "Type message"
-
         
         speechSynthesizer.delegate = self
         speechRecognizer.delegate = self
     
-        
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
             
             switch authStatus {
@@ -168,7 +167,7 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         }
     }
     
-    func scrollToBottom(){
+    func scrollToBottom() {
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.arrData.count-1, section: 0)
             self.tblChatBot.scrollToRow(at: indexPath, at: .bottom, animated: true)
@@ -303,10 +302,15 @@ class ChatController: UIViewController, SFSpeechRecognizerDelegate, AVSpeechSynt
         speechUtterance.rate = 0.4
         speechSynthesizer.speak(speechUtterance)
         UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.chipResponse.text = text
-            self.arrData.append(text as AnyObject)
-            self.tblChatBot.reloadData()
-            self.scrollToBottom()
+            if text == "Welcome to KAUST Artificial Intelligence. My name is KIA. How may I help you?" {
+                
+            } else {
+                self.chipResponse.text = text
+                self.arrData.append(text as AnyObject)
+                self.tblChatBot.reloadData()
+                self.scrollToBottom()
+            }
+            
         }, completion: nil)
         
     }
